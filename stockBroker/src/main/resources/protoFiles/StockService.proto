@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "gRpc";
+
+
+service StockService {
+  rpc getAllStocks(Empty) returns (stream Stock) {}
+
+  rpc setOrder(Order) returns (Status) {}
+
+  rpc filterOrders(FilterQuery) returns (stream Order) {}
+
+}
+
+message FilterQuery {
+  string symbol = 1;
+  uint32 quantity = 2;
+  FilterAction action = 3;
+}
+
+enum FilterAction {
+  ASK = 0;
+  BID = 1;
+}
+
+
+message Order {
+  string symbol = 1;
+  double price = 2;
+  uint32 quantity = 3;
+  Action action = 4;
+}
+
+message Status {
+  string responseMessage = 1;
+  int32 responseCode = 2;
+}
+
+
+enum Action {
+  BUY = 0;
+  SELL = 1;
+}
+
+
+message Stock {
+  string symbol = 1;
+  string name = 2;
+  double price = 3;
+  double percentageChange = 4;
+  uint64 date = 5;
+}
+
+message Empty {}
