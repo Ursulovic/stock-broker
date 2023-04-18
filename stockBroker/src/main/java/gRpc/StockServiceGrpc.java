@@ -123,6 +123,38 @@ public final class StockServiceGrpc {
      return getFilterOrdersMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<gRpc.TradesDate,
+      gRpc.TradeLogMessage> getGetLogsMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "getLogs",
+      requestType = gRpc.TradesDate.class,
+      responseType = gRpc.TradeLogMessage.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<gRpc.TradesDate,
+      gRpc.TradeLogMessage> getGetLogsMethod() {
+    io.grpc.MethodDescriptor<gRpc.TradesDate, gRpc.TradeLogMessage> getGetLogsMethod;
+    if ((getGetLogsMethod = StockServiceGrpc.getGetLogsMethod) == null) {
+      synchronized (StockServiceGrpc.class) {
+        if ((getGetLogsMethod = StockServiceGrpc.getGetLogsMethod) == null) {
+          StockServiceGrpc.getGetLogsMethod = getGetLogsMethod = 
+              io.grpc.MethodDescriptor.<gRpc.TradesDate, gRpc.TradeLogMessage>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(
+                  "StockService", "getLogs"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  gRpc.TradesDate.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  gRpc.TradeLogMessage.getDefaultInstance()))
+                  .setSchemaDescriptor(new StockServiceMethodDescriptorSupplier("getLogs"))
+                  .build();
+          }
+        }
+     }
+     return getGetLogsMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -171,6 +203,13 @@ public final class StockServiceGrpc {
       asyncUnimplementedUnaryCall(getFilterOrdersMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void getLogs(gRpc.TradesDate request,
+        io.grpc.stub.StreamObserver<gRpc.TradeLogMessage> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetLogsMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -194,6 +233,13 @@ public final class StockServiceGrpc {
                 gRpc.FilterQuery,
                 gRpc.Order>(
                   this, METHODID_FILTER_ORDERS)))
+          .addMethod(
+            getGetLogsMethod(),
+            asyncServerStreamingCall(
+              new MethodHandlers<
+                gRpc.TradesDate,
+                gRpc.TradeLogMessage>(
+                  this, METHODID_GET_LOGS)))
           .build();
     }
   }
@@ -239,6 +285,14 @@ public final class StockServiceGrpc {
       asyncServerStreamingCall(
           getChannel().newCall(getFilterOrdersMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void getLogs(gRpc.TradesDate request,
+        io.grpc.stub.StreamObserver<gRpc.TradeLogMessage> responseObserver) {
+      asyncServerStreamingCall(
+          getChannel().newCall(getGetLogsMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -281,6 +335,14 @@ public final class StockServiceGrpc {
       return blockingServerStreamingCall(
           getChannel(), getFilterOrdersMethod(), getCallOptions(), request);
     }
+
+    /**
+     */
+    public java.util.Iterator<gRpc.TradeLogMessage> getLogs(
+        gRpc.TradesDate request) {
+      return blockingServerStreamingCall(
+          getChannel(), getGetLogsMethod(), getCallOptions(), request);
+    }
   }
 
   /**
@@ -313,6 +375,7 @@ public final class StockServiceGrpc {
   private static final int METHODID_GET_ALL_STOCKS = 0;
   private static final int METHODID_SET_ORDER = 1;
   private static final int METHODID_FILTER_ORDERS = 2;
+  private static final int METHODID_GET_LOGS = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -342,6 +405,10 @@ public final class StockServiceGrpc {
         case METHODID_FILTER_ORDERS:
           serviceImpl.filterOrders((gRpc.FilterQuery) request,
               (io.grpc.stub.StreamObserver<gRpc.Order>) responseObserver);
+          break;
+        case METHODID_GET_LOGS:
+          serviceImpl.getLogs((gRpc.TradesDate) request,
+              (io.grpc.stub.StreamObserver<gRpc.TradeLogMessage>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -407,6 +474,7 @@ public final class StockServiceGrpc {
               .addMethod(getGetAllStocksMethod())
               .addMethod(getSetOrderMethod())
               .addMethod(getFilterOrdersMethod())
+              .addMethod(getGetLogsMethod())
               .build();
         }
       }

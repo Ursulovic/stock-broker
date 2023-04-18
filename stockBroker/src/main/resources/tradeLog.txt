@@ -1,1 +1,1 @@
-STOCK WITH SYMBOL AA SOLD FOR 100.0 DOLLARS AT Sun Apr 16 01:20:07 CEST 2023
+{"2023-04-18":[{"symbol":"AA","price":200.0},{"symbol":"AA","price":400.0}]}

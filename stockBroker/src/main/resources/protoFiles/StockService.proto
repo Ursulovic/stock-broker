@@ -11,6 +11,8 @@ service StockService {
 
   rpc filterOrders(FilterQuery) returns (stream Order) {}
 
+  rpc getLogs(TradesDate) returns (stream TradeLogMessage) {}
+
 }
 
 message FilterQuery {
@@ -24,6 +26,13 @@ enum FilterAction {
   BID = 1;
 }
 
+message TradesDate {
+  string date = 1;
+}
+
+message TradeLogMessage {
+  string log = 1;
+}
 
 message Order {
   string symbol = 1;
