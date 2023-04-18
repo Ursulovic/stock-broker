@@ -1,14 +1,15 @@
 package server;
 
+import com.google.gson.Gson;
 import com.opencsv.CSVReader;
 import gRpc.*;
 import io.grpc.stub.StreamObserver;
+import mapper.TradeLogMapper;
+import model.TradeLog;
 import threads.TradeLogger;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Time;
+import java.time.LocalDate;
 import java.util.*;
 
 public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
@@ -18,6 +19,9 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
     private final List<Order> buyOrders;
 
     private final List<Order> sellOrders;
+
+
+    public static final Map<LocalDate, List<TradeLog>> tradeLogs = new HashMap<>();
 
 
 
@@ -41,11 +45,25 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
 
     @Override
+    public void getLogs(TradesDate request, StreamObserver<TradeLogMessage> responseObserver) {
+
+        List<TradeLog> logs = tradeLogs.get(LocalDate.parse(request.getDate()));
+
+        if (logs != null)
+            for (TradeLog log : logs)
+                responseObserver.onNext(TradeLogMapper.logToMessage(log));
+
+
+        responseObserver.onCompleted();
+
+    }
+
+    @Override
     public void setOrder(Order request, StreamObserver<Status> responseObserver) {
 
         Status orderStatus;
 
-        Order ord = null;
+        Order forDeletion = null;
 
         TradeLogger tradeLogger;
 
@@ -85,19 +103,39 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
                         .build();
 
                 stockList.put(stock2.getSymbol(), stock2);
-                ord = o;
+                forDeletion = o;
 
             }
         }
 
 
-        if (ord != null) {
-            tradeLogger = new TradeLogger(generateLog(ord.getSymbol(), ord.getPrice()));
+        if (forDeletion != null) {
+
+            TradeLog tradeLog = new TradeLog(forDeletion.getSymbol(), forDeletion.getPrice(), LocalDate.now());
+
+
+            synchronized (tradeLogs) {
+                if (!tradeLogs.containsKey(LocalDate.now())) {
+
+                    List<TradeLog> logs = new ArrayList<>();
+
+                    logs.add(tradeLog);
+
+                    tradeLogs.put(LocalDate.now(), logs);
+                }
+                else
+                    tradeLogs.get(LocalDate.now()).add(tradeLog);
+            }
+
+
+            tradeLogger = new TradeLogger();
             tradeLogger.start();
+
+            // brisanje iz liste
             if (request.getAction() == Action.BUY)
-                sellOrders.remove(ord);
+                sellOrders.remove(forDeletion);
             else
-                buyOrders.remove(ord);
+                buyOrders.remove(forDeletion);
         } else {
             if (request.getAction() == Action.BUY)
                 buyOrders.add(request);
@@ -114,17 +152,13 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
         responseObserver.onCompleted();
     }
 
-    private String generateLog(String symbol, double price) {
-        return "STOCK WITH SYMBOL " +
-                symbol +
-                " SOLD FOR " +
-                price +
-                " DOLLARS AT "  + new Date();
-    }
+
 
     private double calculatePriceChange(double oldPrice, double newPrice) {
         return (newPrice - oldPrice) / oldPrice * 100;
     }
+
+
 
 
 
@@ -168,7 +202,7 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
     private void loadInitStocks() {
 
-        try (CSVReader reader = new CSVReader(new FileReader("/home/ivan/Desktop/pds/StockSimulation/stockBroker/src/main/resources/nasdaq_screener_1681137281094.csv"))) {
+        try (CSVReader reader = new CSVReader(new FileReader("src/main/resources/nasdaq_screener_1681137281094.csv"))) {
 
             List<String[]> s = reader.readAll();
 
@@ -209,4 +243,6 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
     public List<Order> getSellOrders() {
         return sellOrders;
     }
+
+
 }
