@@ -1,4 +1,4 @@
-package server;
+package gRpcServer;
 
 import com.google.gson.Gson;
 import com.opencsv.CSVReader;
@@ -9,6 +9,9 @@ import model.TradeLog;
 import threads.TradeLogger;
 
 import java.io.FileReader;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -21,8 +24,8 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
     private final List<Order> sellOrders;
 
 
-    public static final Map<LocalDate, List<TradeLog>> tradeLogs = new HashMap<>();
 
+    public static final Map<LocalDate, List<TradeLog>> tradeLogs = new HashMap<>();
 
 
     public StockBrokerImpl() {
@@ -30,6 +33,7 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
         this.buyOrders = new ArrayList<>();
         this.stockList = new HashMap<>();
         loadInitStocks();
+        initTradeLogs();
     }
 
     @Override
@@ -49,9 +53,13 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
         List<TradeLog> logs = tradeLogs.get(LocalDate.parse(request.getDate()));
 
-        if (logs != null)
+
+
+
+        if (logs != null) {
             for (TradeLog log : logs)
                 responseObserver.onNext(TradeLogMapper.logToMessage(log));
+        }
 
 
         responseObserver.onCompleted();
@@ -111,7 +119,7 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
         if (forDeletion != null) {
 
-            TradeLog tradeLog = new TradeLog(forDeletion.getSymbol(), forDeletion.getPrice(), LocalDate.now());
+            TradeLog tradeLog = new TradeLog(forDeletion.getSymbol(), forDeletion.getPrice());
 
 
             synchronized (tradeLogs) {
@@ -231,6 +239,61 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
         }
 
     }
+
+    private void initTradeLogs() {
+
+
+        try {
+
+            Gson gson = new Gson();
+
+            Reader reader = Files.newBufferedReader(Paths.get("/home/ivan/Desktop/pds/StockSimulation/stockBroker/src/main/resources/tradeLog.txt"));
+
+            Map<?, ?> map = gson.fromJson(reader, Map.class);
+
+            for (Map.Entry<?, ?> entry : map.entrySet()) {
+                LocalDate date = LocalDate.parse(entry.getKey().toString());
+
+                List<TradeLog> logs = new ArrayList<>();
+
+
+                for (Object o : ((List<?>) entry.getValue())) {
+                    String s = o.toString();
+
+
+                    String[] symbolAndPrice = s.split(" ");
+
+                    String symbol = symbolAndPrice[0].substring(symbolAndPrice[0].indexOf("=") + 1).replace(",", "");
+
+                    String priceString = symbolAndPrice[1].substring(symbolAndPrice[1].indexOf("=") + 1).replace("}", "");
+
+                    double price = Double.parseDouble(priceString);
+
+                    TradeLog tradeLog = new TradeLog(symbol, price);
+
+                    logs.add(tradeLog);
+                }
+
+                tradeLogs.put(date, logs);
+
+            }
+
+
+            reader.close();
+
+
+
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+    }
+
 
     public Map<String, Stock> getStockList() {
         return stockList;

@@ -13,7 +13,7 @@ public class TradeLog {
 
 
 
-    public TradeLog(String symbol, double price, LocalDate date) {
+    public TradeLog(String symbol, double price) {
         this.symbol = symbol;
         this.price = price;
     }
@@ -37,12 +37,6 @@ public class TradeLog {
         this.price = price;
     }
 
-
-    public static void main(String[] args) {
-
-        LocalDate localDate = LocalDate.parse("17/04/2023", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        System.out.println(localDate);
-    }
 
     @Override
     public String toString() {

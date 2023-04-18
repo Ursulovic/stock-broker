@@ -1,7 +1,7 @@
 package threads;
 
 import com.google.gson.Gson;
-import server.StockBrokerImpl;
+import gRpcServer.StockBrokerImpl;
 
 import java.io.*;
 
@@ -11,7 +11,6 @@ public class TradeLogger extends Thread{
 
     private static final Object fileLock = "fileLock";
 
-    public static File file = new File("src/main/java/resources/tradeLog.txt");
 
     private Gson gson = new Gson();
 
@@ -37,6 +36,5 @@ public class TradeLogger extends Thread{
             }
 
         }
-
     }
 }

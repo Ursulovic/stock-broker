@@ -5,19 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c29462f-d262-4b6b-a14e-61ae503e0156" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/gRpc/TradeLogMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/gRpc/TradeLogMessageOrBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/gRpc/TradesDate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/gRpc/TradesDateOrBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/mapper/TradeLogMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/TradeLog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/socketServer/Server.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/socketServer/messages/RealTimePrice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/socketServer/test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/util/KryoUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gRpc/StockServiceGrpc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gRpc/StockServiceGrpc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gRpc/StockServiceOuterClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gRpc/StockServiceOuterClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/StockBrokerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/StockBrokerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/TradeLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/TradeLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/StockBrokerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gRpcServer/StockBrokerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/StockBrokerServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gRpcServer/StockBrokerServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/threads/TradeLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/threads/TradeLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/protoFiles/StockService.proto" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/protoFiles/StockService.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/tradeLog.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tradeLog.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,12 +59,38 @@
   }
 }</component>
   <component name="RunManager" selected="Application.StockBrokerServer">
-    <configuration name="StockBrokerServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="server.StockBrokerServer" />
+    <configuration name="KryoUtil" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="util.KryoUtil" />
       <module name="stockBroker" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.*" />
+          <option name="PATTERN" value="util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="socketServer.Server" />
+      <module name="stockBroker" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="socketServer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StockBrokerServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="gRpcServer.StockBrokerServer" />
+      <module name="stockBroker" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gRpcServer.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -95,6 +117,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.StockBrokerServer" />
+        <item itemvalue="Application.Server" />
+        <item itemvalue="Application.KryoUtil" />
         <item itemvalue="Application.TradeLog" />
         <item itemvalue="HTTP Request.All in generated-requests" />
       </list>
@@ -111,7 +135,8 @@
       <workItem from="1681218119832" duration="1287000" />
       <workItem from="1681219753470" duration="4320000" />
       <workItem from="1681230041089" duration="31143000" />
-      <workItem from="1681765461407" duration="7717000" />
+      <workItem from="1681765461407" duration="15336000" />
+      <workItem from="1681851256158" duration="4843000" />
     </task>
     <servers />
   </component>
