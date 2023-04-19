@@ -17,13 +17,13 @@
 //
 //
 //        try {
-//            selector = Selector.open(); //
+//            --selector = Selector.open(); //
 //            // We have to set connection host,port and
 //            // non-blocking mode
-//            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open(); //
-//            ServerSocket serverSocket = serverSocketChannel.socket(); //
-//            serverSocket.bind(new InetSocketAddress("localhost", 8089)); //
-//            serverSocketChannel.configureBlocking(false); //
+//            --ServerSocketChannel serverSocketChannel = ServerSocketChannel.open(); //
+//            --ServerSocket serverSocket = serverSocketChannel.socket(); //
+//           -- serverSocket.bind(new InetSocketAddress("localhost", 8089)); //
+//           -- serverSocketChannel.configureBlocking(false); //
 //            int ops = serverSocketChannel.validOps(); //
 //            serverSocketChannel.register(selector, ops, null);
 //            while (true) {
