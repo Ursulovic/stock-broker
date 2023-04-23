@@ -1,22 +1,29 @@
 package socketServer.messages;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class RealTimePrice {
 
     private String symbol;
 
-    private long date;
+    private LocalDate date;
+
+    private int hour;
 
     private double price;
 
     private double change;
 
-    public RealTimePrice(String symbol, long date, double price, double change) {
+    public RealTimePrice(String symbol, LocalDate date, int hour, double price, double change) {
         this.symbol = symbol;
         this.date = date;
+        this.hour = hour;
         this.price = price;
         this.change = change;
+    }
+
+    public RealTimePrice() {
     }
 
     public String getSymbol() {
@@ -27,11 +34,12 @@ public class RealTimePrice {
         this.symbol = symbol;
     }
 
-    public long getDate() {
+
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -49,5 +57,24 @@ public class RealTimePrice {
 
     public void setChange(double change) {
         this.change = change;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    @Override
+    public String toString() {
+        return "RealTimePrice{" +
+                "symbol='" + symbol + '\'' +
+                ", date=" + date +
+                ", hour=" + hour +
+                ", price=" + price +
+                ", change=" + change +
+                '}';
     }
 }

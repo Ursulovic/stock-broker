@@ -62,19 +62,19 @@ public final class StockServiceOuterClass {
       "ymbol\030\001 \001(\t\022\020\n\010quantity\030\002 \001(\r\022\035\n\006action\030" +
       "\003 \001(\0162\r.FilterAction\"\032\n\nTradesDate\022\014\n\004da" +
       "te\030\001 \001(\t\"\036\n\017TradeLogMessage\022\013\n\003log\030\001 \001(\t" +
-      "\"Q\n\005Order\022\016\n\006symbol\030\001 \001(\t\022\r\n\005price\030\002 \001(\001" +
+      "\"]\n\005Order\022\016\n\006symbol\030\001 \001(\t\022\r\n\005price\030\002 \001(\001" +
       "\022\020\n\010quantity\030\003 \001(\r\022\027\n\006action\030\004 \001(\0162\007.Act" +
-      "ion\"7\n\006Status\022\027\n\017responseMessage\030\001 \001(\t\022\024" +
-      "\n\014responseCode\030\002 \001(\005\"\\\n\005Stock\022\016\n\006symbol\030" +
-      "\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\r\n\005price\030\003 \001(\001\022\030\n\020pe" +
-      "rcentageChange\030\004 \001(\001\022\014\n\004date\030\005 \001(\004\"\007\n\005Em" +
-      "pty* \n\014FilterAction\022\007\n\003ASK\020\000\022\007\n\003BID\020\001*\033\n" +
-      "\006Action\022\007\n\003BUY\020\000\022\010\n\004SELL\020\0012\251\001\n\014StockServ" +
-      "ice\022\"\n\014getAllStocks\022\006.Empty\032\006.Stock\"\0000\001\022" +
-      "\035\n\010setOrder\022\006.Order\032\007.Status\"\000\022(\n\014filter" +
-      "Orders\022\014.FilterQuery\032\006.Order\"\0000\001\022,\n\007getL" +
-      "ogs\022\013.TradesDate\032\020.TradeLogMessage\"\0000\001B\010" +
-      "\n\004gRpcP\001b\006proto3"
+      "ion\022\n\n\002id\030\005 \001(\t\"7\n\006Status\022\027\n\017responseMes" +
+      "sage\030\001 \001(\t\022\024\n\014responseCode\030\002 \001(\005\"\\\n\005Stoc" +
+      "k\022\016\n\006symbol\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\r\n\005price" +
+      "\030\003 \001(\001\022\030\n\020percentageChange\030\004 \001(\001\022\014\n\004date" +
+      "\030\005 \001(\004\"\007\n\005Empty* \n\014FilterAction\022\007\n\003ASK\020\000" +
+      "\022\007\n\003BID\020\001*\033\n\006Action\022\007\n\003BUY\020\000\022\010\n\004SELL\020\0012\251" +
+      "\001\n\014StockService\022\"\n\014getAllStocks\022\006.Empty\032" +
+      "\006.Stock\"\0000\001\022\035\n\010setOrder\022\006.Order\032\007.Status" +
+      "\"\000\022(\n\014filterOrders\022\014.FilterQuery\032\006.Order" +
+      "\"\0000\001\022,\n\007getLogs\022\013.TradesDate\032\020.TradeLogM" +
+      "essage\"\0000\001B\010\n\004gRpcP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -103,7 +103,7 @@ public final class StockServiceOuterClass {
     internal_static_Order_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Order_descriptor,
-        new java.lang.String[] { "Symbol", "Price", "Quantity", "Action", });
+        new java.lang.String[] { "Symbol", "Price", "Quantity", "Action", "Id", });
     internal_static_Status_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_Status_fieldAccessorTable = new

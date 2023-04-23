@@ -41,4 +41,16 @@ public interface OrderOrBuilder extends
    * @return The action.
    */
   gRpc.Action getAction();
+
+  /**
+   * <code>string id = 5;</code>
+   * @return The id.
+   */
+  java.lang.String getId();
+  /**
+   * <code>string id = 5;</code>
+   * @return The bytes for id.
+   */
+  com.google.protobuf.ByteString
+      getIdBytes();
 }

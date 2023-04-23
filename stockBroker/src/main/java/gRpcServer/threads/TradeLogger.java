@@ -1,4 +1,4 @@
-package threads;
+package gRpcServer.threads;
 
 import com.google.gson.Gson;
 import gRpcServer.StockBrokerImpl;

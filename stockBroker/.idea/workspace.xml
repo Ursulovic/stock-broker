@@ -5,15 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c29462f-d262-4b6b-a14e-61ae503e0156" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/socketServer/ServerData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/socketServer/SocketServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/socketServer/messages/RequestStocks.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/gRpcServer/RpcServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/globalData/EnvVariables.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/globalData/GlobalData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/serverStarter/Server.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/socketServer/ClientInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/socketServer/MockClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/socketServer/constants/StatusCodes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/socketServer/messages/PriceFeed.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/socketServer/messages/RequestStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/socketServer/threads/PriceFeedNotificator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/socketServer/Server.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/socketServer/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/socketServer/test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gRpc/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gRpc/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gRpc/OrderOrBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gRpc/OrderOrBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gRpc/StockServiceOuterClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gRpc/StockServiceOuterClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gRpcServer/StockBrokerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gRpcServer/StockBrokerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gRpcServer/StockBrokerServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mapper/TradeLogMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gRpcServer/mapper/TradeLogMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/TradeLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gRpcServer/model/TradeLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/socketServer/ServerData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/socketServer/ServerData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/socketServer/SocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/socketServer/SocketServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/socketServer/messages/RealTimePrice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/socketServer/messages/RealTimePrice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/socketServer/test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/threads/TradeLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gRpcServer/threads/TradeLogger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/util/KryoUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/KryoUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/protoFiles/StockService.proto" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/protoFiles/StockService.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/tradeLog.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tradeLog.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,28 +78,9 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.SocketServer">
-    <configuration name="KryoUtil" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <envs>
-        <env name="--add-opens" value="java.base/java.util=ALL-UNNAMED" />
-      </envs>
-      <option name="MAIN_CLASS_NAME" value="util.KryoUtil" />
-      <module name="stockBroker" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="util.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ServerData" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <envs>
-        <env name="--add-opens" value="java.base/java.util=ALL-UNNAMED" />
-      </envs>
-      <option name="MAIN_CLASS_NAME" value="socketServer.ServerData" />
+  <component name="RunManager" selected="Application.MockClient">
+    <configuration name="MockClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="socketServer.MockClient" />
       <module name="stockBroker" />
       <extension name="coverage">
         <pattern>
@@ -93,12 +92,38 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SocketServer$testClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="socketServer.SocketServer$testClient" />
+    <configuration name="PriceFeedNotificator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="socketServer.threads.PriceFeedNotificator" />
       <module name="stockBroker" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="socketServer.*" />
+          <option name="PATTERN" value="socketServer.threads.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RpcServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="gRpcServer.RpcServer" />
+      <module name="stockBroker" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gRpcServer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="serverStarter.Server" />
+      <module name="stockBroker" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="serverStarter.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -119,33 +144,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StockBrokerServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="gRpcServer.StockBrokerServer" />
-      <module name="stockBroker" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gRpcServer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
-      <item itemvalue="Application.KryoUtil" />
-      <item itemvalue="Application.ServerData" />
+      <item itemvalue="Application.MockClient" />
+      <item itemvalue="Application.PriceFeedNotificator" />
+      <item itemvalue="Application.RpcServer" />
+      <item itemvalue="Application.Server" />
       <item itemvalue="Application.SocketServer" />
-      <item itemvalue="Application.SocketServer$testClient" />
-      <item itemvalue="Application.StockBrokerServer" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.SocketServer$testClient" />
+        <item itemvalue="Application.MockClient" />
+        <item itemvalue="Application.Server" />
+        <item itemvalue="Application.RpcServer" />
+        <item itemvalue="Application.PriceFeedNotificator" />
         <item itemvalue="Application.SocketServer" />
-        <item itemvalue="Application.ServerData" />
-        <item itemvalue="Application.StockBrokerServer" />
-        <item itemvalue="Application.KryoUtil" />
       </list>
     </recent_temporary>
   </component>
@@ -163,7 +175,11 @@
       <workItem from="1681765461407" duration="15336000" />
       <workItem from="1681851256158" duration="4843000" />
       <workItem from="1681856116154" duration="11347000" />
-      <workItem from="1681926856201" duration="5781000" />
+      <workItem from="1681926856201" duration="9229000" />
+      <workItem from="1681985393707" duration="214000" />
+      <workItem from="1681985857351" duration="722000" />
+      <workItem from="1681988737895" duration="2379000" />
+      <workItem from="1682200575690" duration="24070000" />
     </task>
     <servers />
   </component>

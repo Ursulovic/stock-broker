@@ -39,6 +39,7 @@ message Order {
   double price = 2;
   uint32 quantity = 3;
   Action action = 4;
+  string id = 5;
 }
 
 message Status {
