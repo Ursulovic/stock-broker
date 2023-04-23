@@ -1,12 +1,14 @@
 package gRpcServer;
 
+import com.esotericsoftware.kryonet.Connection;
 import com.google.gson.Gson;
 import com.opencsv.CSVReader;
 import gRpc.*;
+import globalData.GlobalData;
 import io.grpc.stub.StreamObserver;
-import mapper.TradeLogMapper;
-import model.TradeLog;
-import threads.TradeLogger;
+import gRpcServer.mapper.TradeLogMapper;
+import gRpcServer.model.TradeLog;
+import gRpcServer.threads.TradeLogger;
 
 import java.io.FileReader;
 import java.io.Reader;
@@ -17,7 +19,7 @@ import java.util.*;
 
 public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
-    private final Map<String, Stock> stockList;
+//    public static final Map<String, Stock> stockList = new HashMap<>();
 
     private final List<Order> buyOrders;
 
@@ -31,8 +33,6 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
     public StockBrokerImpl() {
         this.sellOrders = new ArrayList<>();
         this.buyOrders = new ArrayList<>();
-        this.stockList = new HashMap<>();
-        loadInitStocks();
         initTradeLogs();
     }
 
@@ -40,8 +40,8 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
     public void getAllStocks(Empty request, StreamObserver<Stock> responseObserver) {
 
 
-        for (String s : stockList.keySet()) {
-            responseObserver.onNext(stockList.get(s));
+        for (String s : GlobalData.stockList.keySet()) {
+            responseObserver.onNext(GlobalData.stockList.get(s));
         }
         responseObserver.onCompleted();
 
@@ -78,7 +78,7 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
         List<Order> list;
 
 
-        if (!stockList.containsKey(request.getSymbol())) {
+        if (!GlobalData.stockList.containsKey(request.getSymbol())) {
             orderStatus = Status.newBuilder().setResponseCode(3).setResponseMessage("Specified stock doesn't exist.").build();
             responseObserver.onNext(orderStatus);
             responseObserver.onCompleted();
@@ -96,9 +96,9 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
                     && o.getPrice() == request.getPrice()
                     && o.getQuantity() == request.getQuantity()) {
 
-                Stock stock1 = stockList.get(request.getSymbol());
+                Stock stock1 = GlobalData.stockList.get(request.getSymbol());
 
-                double change = calculatePriceChange(stockList.get(request.getSymbol()).getPrice(), request.getPrice());
+                double change = calculatePriceChange(GlobalData.stockList.get(request.getSymbol()).getPrice(), request.getPrice());
 
 
 
@@ -110,8 +110,10 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
                         .setPercentageChange(change)
                         .build();
 
-                stockList.put(stock2.getSymbol(), stock2);
+                GlobalData.stockList.put(stock2.getSymbol(), stock2);
                 forDeletion = o;
+
+                notifyUsers(request.getId(), o.getId(), o);
 
             }
         }
@@ -120,6 +122,8 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
         if (forDeletion != null) {
 
             TradeLog tradeLog = new TradeLog(forDeletion.getSymbol(), forDeletion.getPrice());
+
+
 
 
             synchronized (tradeLogs) {
@@ -153,6 +157,8 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
 
 
+
+
         orderStatus = Status.newBuilder().setResponseCode(0).setResponseMessage("Success!").build();
 
         responseObserver.onNext(orderStatus);
@@ -173,9 +179,9 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
     @Override
     public void filterOrders(FilterQuery request, StreamObserver<Order> responseObserver) {
 
-        if (!stockList.containsKey(request.getSymbol())) {
-            // resi
-        }
+//        if (!GlobalData.stockList.containsKey(request.getSymbol())) {
+//            // resi
+//        }
 
         List<Order> orders = new ArrayList<>();
 
@@ -205,38 +211,6 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
         responseObserver.onCompleted();
 
-
-    }
-
-    private void loadInitStocks() {
-
-        try (CSVReader reader = new CSVReader(new FileReader("src/main/resources/nasdaq_screener_1681137281094.csv"))) {
-
-            List<String[]> s = reader.readAll();
-
-            for (int i = 1; i < s.size(); i++) {
-                String symbol = s.get(i)[0];
-                String name = s.get(i)[1];
-                double lastSale = Double.parseDouble(s.get(i)[2].replace("$", ""));
-                double change = Double.parseDouble(s.get(i)[3].replace("%", ""));
-                long date = new Date().getTime();
-
-                Stock stock = Stock.newBuilder()
-                        .setName(name)
-                        .setPrice(lastSale)
-                        .setPercentageChange(change)
-                        .setDate(date)
-                        .setSymbol(symbol).build();
-
-                stockList.put(symbol, stock);
-
-
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -278,7 +252,6 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
             }
 
-
             reader.close();
 
 
@@ -294,10 +267,22 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
     }
 
-
-    public Map<String, Stock> getStockList() {
-        return stockList;
+    private void notifyUsers(String sellerId, String buyerId, Order o) {
+        sendNotification(sellerId, o);
+        sendNotification(buyerId, o);
     }
+    private void sendNotification(String id, Order order) {
+
+
+        Connection connection = GlobalData.userStocks.get(id).getConnection();
+
+        if (connection != null) {
+            TradeLog tradeLog = new TradeLog(order.getSymbol(), order.getPrice());
+            connection.sendTCP(tradeLog);
+        }
+
+    }
+
 
     public List<Order> getBuyOrders() {
         return buyOrders;
@@ -306,6 +291,7 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
     public List<Order> getSellOrders() {
         return sellOrders;
     }
+
 
 
 }

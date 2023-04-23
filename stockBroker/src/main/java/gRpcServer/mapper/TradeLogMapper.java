@@ -1,7 +1,7 @@
-package mapper;
+package gRpcServer.mapper;
 
 import gRpc.TradeLogMessage;
-import model.TradeLog;
+import gRpcServer.model.TradeLog;
 
 public class TradeLogMapper {
 

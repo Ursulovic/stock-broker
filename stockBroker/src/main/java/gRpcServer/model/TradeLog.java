@@ -1,4 +1,4 @@
-package model;
+package gRpcServer.model;
 
 import gRpc.Action;
 
@@ -13,12 +13,15 @@ public class TradeLog {
 
 
 
+
+
     public TradeLog(String symbol, double price) {
         this.symbol = symbol;
         this.price = price;
     }
 
-
+    public TradeLog() {
+    }
 
     public String getSymbol() {
         return symbol;
