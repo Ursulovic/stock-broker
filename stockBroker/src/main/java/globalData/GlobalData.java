@@ -2,11 +2,10 @@ package globalData;
 
 import com.opencsv.CSVReader;
 import gRpc.Stock;
-import socketServer.ClientInfo;
+import socketServer.messages.ClientInfo;
 
 import java.io.FileReader;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

@@ -2,8 +2,7 @@ package socketServer.threads;
 
 import gRpc.Stock;
 import globalData.GlobalData;
-import socketServer.ClientInfo;
-import socketServer.ServerData;
+import socketServer.messages.ClientInfo;
 import socketServer.messages.PriceFeed;
 import socketServer.messages.RealTimePrice;
 
@@ -16,6 +15,11 @@ import java.util.*;
 public class PriceFeedNotificator extends Thread{
 
 
+    private long updateInterval;
+
+    public PriceFeedNotificator(long updateInterval) {
+        this.updateInterval = updateInterval;
+    }
 
     @Override
     public void run() {
@@ -25,15 +29,12 @@ public class PriceFeedNotificator extends Thread{
         while (true) {
 
             try {
-                Thread.sleep(3000);
+                Thread.sleep(updateInterval);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
-//            if (serverData.getUserStocks().isEmpty()) {
-//                System.out.println("Empty!");
-//                continue;
-//            }
+
 
             for (Iterator<Map.Entry<String, ClientInfo>> it = GlobalData.userStocks.entrySet().iterator(); it.hasNext();) {
                 Map.Entry<String, ClientInfo> entry = it.next();

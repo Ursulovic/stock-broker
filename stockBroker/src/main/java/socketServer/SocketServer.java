@@ -7,6 +7,7 @@ import com.esotericsoftware.kryonet.Server;
 import globalData.EnvVariables;
 import globalData.GlobalData;
 import socketServer.constants.StatusCodes;
+import socketServer.messages.ClientInfo;
 import socketServer.messages.RequestStatus;
 import socketServer.messages.RequestStocks;
 import socketServer.threads.PriceFeedNotificator;
@@ -29,7 +30,7 @@ public class SocketServer {
         Kryo kryo = server.getKryo();
         KryoUtil.registerKryoClasses(kryo);
 
-        PriceFeedNotificator priceFeedNotificator = new PriceFeedNotificator();
+        PriceFeedNotificator priceFeedNotificator = new PriceFeedNotificator(3000);
         priceFeedNotificator.setDaemon(true);
         priceFeedNotificator.start();
 
@@ -38,17 +39,16 @@ public class SocketServer {
             @Override
             public void received(Connection connection, Object o) {
 
+
                 if (o instanceof RequestStocks) {
                     RequestStocks requestStocks = (RequestStocks) o;
 
 
                     RequestStatus requestStatus = validateRequestStocks(requestStocks);
 
-                    connection.sendTCP(validateRequestStocks(requestStocks));
+                    connection.sendTCP(requestStatus);
                     if (requestStatus.getCode() == StatusCodes.OK)
                         initCommunication(connection, requestStocks);
-
-
 
 
                 }

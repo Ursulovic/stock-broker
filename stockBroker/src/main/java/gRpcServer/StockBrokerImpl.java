@@ -19,7 +19,6 @@ import java.util.*;
 
 public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
-//    public static final Map<String, Stock> stockList = new HashMap<>();
 
     private final List<Order> buyOrders;
 
@@ -114,6 +113,7 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
                 forDeletion = o;
 
                 notifyUsers(request.getId(), o.getId(), o);
+
 
             }
         }
