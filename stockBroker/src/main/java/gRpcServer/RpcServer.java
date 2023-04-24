@@ -23,9 +23,4 @@ public class RpcServer {
 
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        GlobalData.loadInitStocks();
-        RpcServer rpcServer = new RpcServer();
-        rpcServer.startServer();
-    }
 }
