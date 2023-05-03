@@ -22,6 +22,7 @@ public class PriceFeed {
 
     @Override
     public String toString() {
+
         return "PriceFeed{" +
                 "realTimePrices=" + realTimePrices +
                 '}';

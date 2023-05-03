@@ -83,7 +83,7 @@ public class MockClient2 {
 
         client.sendTCP(requestStocks);
 
-        Order order = Order.newBuilder().setSymbol("A").setPrice(100).setAction(Action.SELL).setQuantity(10).setId(id).build();
+        Order order = Order.newBuilder().setSymbol("A").setPrice(200).setAction(Action.SELL).setQuantity(10).setId(id).build();
 
         stub.setOrder(order);
 
@@ -109,10 +109,10 @@ public class MockClient2 {
         Ansi.Color color;
 
 
-        Runtime.getRuntime().exec("clear");
+
         for (RealTimePrice price : priceFeed.getRealTimePrices()) {
-            String change;
-            if (price.getPrice() >= 0) {
+            String change = "";
+            if (price.getChange() >= 0) {
                 color = Ansi.Color.GREEN;
                 change = price.getChange() + "↑";
             }
@@ -120,8 +120,10 @@ public class MockClient2 {
                 color = Ansi.Color.RED;
                 change = price.getChange() + "↓";
             }
-            System.out.println(ansi().a(price.getSymbol()).a(price.getPrice()).fg(color).a(change).reset());
+            System.out.println(ansi().a(price.getSymbol()+ " ").a(price.getPrice() + " ").fg(color).a(change));
         }
+
+        System.out.println("----------------------------------------------");
 
     }
 

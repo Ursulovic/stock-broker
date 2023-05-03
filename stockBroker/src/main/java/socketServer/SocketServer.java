@@ -15,6 +15,10 @@ import util.KryoUtil;
 
 import java.io.IOException;
 
+import static org.fusesource.jansi.Ansi.Color.GREEN;
+import static org.fusesource.jansi.Ansi.Color.RED;
+import static org.fusesource.jansi.Ansi.ansi;
+
 public class SocketServer {
 
 
@@ -89,10 +93,6 @@ public class SocketServer {
 
 
     }
-
-
-
-
 
 
 

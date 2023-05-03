@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.fusesource.jansi.Ansi.Color.GREEN;
+import static org.fusesource.jansi.Ansi.Color.RED;
 import static org.fusesource.jansi.Ansi.ansi;
 
 public class MockClient1 {
@@ -67,6 +69,7 @@ public class MockClient1 {
                 if (o instanceof RequestStatus) {
                     RequestStatus requestStatus = (RequestStatus) o;
                     System.out.println(requestStatus.getMessage());
+
                 }
                 if (o instanceof PriceFeed) {
                     PriceFeed priceFeed = (PriceFeed) o;
@@ -86,7 +89,7 @@ public class MockClient1 {
 
         client.sendTCP(requestStocks);
 
-        Order order = Order.newBuilder().setSymbol("A").setPrice(100).setAction(Action.BUY).setQuantity(10).setId(id).build();
+        Order order = Order.newBuilder().setSymbol("A").setPrice(200).setAction(Action.BUY).setQuantity(10).setId(id).build();
 
         stub.setOrder(order);
 
@@ -114,22 +117,33 @@ public class MockClient1 {
         Runtime.getRuntime().exec("clear");
         for (RealTimePrice price : priceFeed.getRealTimePrices()) {
             String change;
-            if (price.getPrice() >= 0) {
-                color = Ansi.Color.GREEN;
+            if (price.getChange() >= 0) {
+                color = GREEN;
                 change = price.getChange() + "↑";
             }
             else {
-                color = Ansi.Color.RED;
+                color = RED;
                 change = price.getChange() + "↓";
             }
-            System.out.println(ansi().reset().eraseScreen().a(price.getSymbol()).a(price.getPrice()).fg(color).a(change));
+
+//            System.out.println( ansi().eraseScreen().fg(RED).a("Hello").fg(GREEN).a(" World").reset() );
+
+            String output = price.getSymbol() + " " + price.getPrice() + " ";
+
+            System.out.println(ansi().eraseScreen().a(output).fg(color).a(change).reset());
+
+//            System.out.println(ansi().a(price.getSymbol()+ " ").a(price.getPrice() + " ").fg(color).a(change));
         }
+
+        System.out.println("----------------------------------------------");
 
     }
 
     private static void printTrade(TradeLog tradeLog) {
         System.out.println(ansi().reset().eraseScreen().fg(Ansi.Color.GREEN).a("Trade ").a(tradeLog.getSymbol()).a(" completed ").a(" for price of ").a(tradeLog.getPrice()).reset());
     }
+
+
 
 
 

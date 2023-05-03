@@ -16,13 +16,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
+    //svaka kompnaija ima svoje
 
-    private final List<Order> buyOrders;
+    public static Map<String, List<Order>> buyOrders;
 
-    private final List<Order> sellOrders;
+    public static Map<String, List<Order>> sellOrders;
 
 
 
@@ -30,9 +32,11 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
 
     public StockBrokerImpl() {
-        this.sellOrders = new ArrayList<>();
-        this.buyOrders = new ArrayList<>();
+        sellOrders = new ConcurrentHashMap<>();
+        buyOrders = new ConcurrentHashMap<>();
         initTradeLogs();
+        initStockLists();
+
     }
 
     @Override
@@ -85,14 +89,18 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
         }
 
 
-        if (request.getAction() == Action.BUY)
-            list = sellOrders;
-        else
-            list = buyOrders;
+        if (request.getAction() == Action.BUY) {
+            list = sellOrders.get(request.getSymbol());
+
+        }
+        else {
+            list = buyOrders.get(request.getSymbol());
+        }
+
+
 
         for (Order o : list) {
-            if (o.getSymbol().equalsIgnoreCase(request.getSymbol())
-                    && o.getPrice() == request.getPrice()
+            if (o.getPrice() == request.getPrice()
                     && o.getQuantity() == request.getQuantity()) {
 
                 Stock stock1 = GlobalData.stockList.get(request.getSymbol());
@@ -113,6 +121,8 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
                 forDeletion = o;
 
                 notifyUsers(request.getId(), o.getId(), o);
+
+                break;
 
 
             }
@@ -150,9 +160,9 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
                 buyOrders.remove(forDeletion);
         } else {
             if (request.getAction() == Action.BUY)
-                buyOrders.add(request);
+                buyOrders.get(request.getSymbol()).add(request);
             else
-                sellOrders.add(request);
+                sellOrders.get(request.getSymbol()).add(request);
         }
 
 
@@ -188,8 +198,7 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
         if (request.getAction() == FilterAction.ASK) {
 
-            for (Order o :
-                    sellOrders) {
+            for (Order o : sellOrders.get(request.getSymbol())) {
                 if (o.getSymbol().equalsIgnoreCase(request.getSymbol()))
                     orders.add(o);
             }
@@ -198,7 +207,7 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
         }
         else {
             for (Order o :
-                    buyOrders) {
+                    buyOrders.get(request.getSymbol())) {
                 if (o.getSymbol().equalsIgnoreCase(request.getSymbol()))
                     orders.add(o);
             }
@@ -221,7 +230,7 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
 
             Gson gson = new Gson();
 
-            Reader reader = Files.newBufferedReader(Paths.get("/home/ivan/Desktop/pds/StockSimulation/stockBroker/src/main/resources/tradeLog.txt"));
+            Reader reader = Files.newBufferedReader(Paths.get("/Users/ivan/Desktop/stock-broker/stockBroker/src/main/resources/tradeLog.txt"));
 
             Map<?, ?> map = gson.fromJson(reader, Map.class);
 
@@ -284,14 +293,21 @@ public class StockBrokerImpl extends StockServiceGrpc.StockServiceImplBase {
     }
 
 
-    public List<Order> getBuyOrders() {
+    public static void initStockLists() {
+        for (String s : GlobalData.stockList.keySet()) {
+            List<Order> orders = new ArrayList<>();
+            StockBrokerImpl.sellOrders.put(s, orders);
+            StockBrokerImpl.buyOrders.put(s, orders);
+
+        }
+    }
+
+
+    public Map<String, List<Order>> getBuyOrders() {
         return buyOrders;
     }
 
-    public List<Order> getSellOrders() {
+    public Map<String, List<Order>> getSellOrders() {
         return sellOrders;
     }
-
-
-
 }

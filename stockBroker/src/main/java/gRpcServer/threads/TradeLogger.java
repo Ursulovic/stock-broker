@@ -24,7 +24,7 @@ public class TradeLogger extends Thread{
         synchronized (fileLock) {
 
 
-            try(FileWriter fw = new FileWriter("/home/ivan/Desktop/pds/StockSimulation/stockBroker/src/main/resources/tradeLog.txt", false);
+            try(FileWriter fw = new FileWriter("/Users/ivan/Desktop/stock-broker/stockBroker/src/main/resources/tradeLog.txt", false);
                 BufferedWriter bw = new BufferedWriter(fw);
                 PrintWriter out = new PrintWriter(bw))
             {
